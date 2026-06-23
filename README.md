@@ -1,7 +1,7 @@
 # Real-time & Historical LEO Space Environment Risk Monitoring Platform
 
 > **MADSC301 — Business Intelligence — Final Assignment (Term 3 AY 2025/26)**
-> **Student:** Leo  
+> **Student:** ChengYi Lin  
 > **Lecturer:** Dr. Zainab Usman  
 > **Institution:** EU Business School Munich
 
