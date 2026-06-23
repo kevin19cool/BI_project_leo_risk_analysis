@@ -1,0 +1,88 @@
+volumes:
+  postgres_data:
+
+services:
+  # =========================================================================
+  # 🪐 服務一：PostgreSQL 核心數據基地
+  # =========================================================================
+  postgres:
+    image: postgres:15-alpine
+    container_name: leo-postgres-dw
+    # 🌟 加上這行：讓 Postgres 也能看懂 .env 檔案
+    env_file: .env
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_DB: leo_risk_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d leo_risk_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # =========================================================================
+  # 🚀 服務二：程序 1 - 一次性歷史冷數據自動直灌兵
+  # =========================================================================
+  data-bootstrap:
+    build: .
+    container_name: leo-data-bootstrap
+    depends_on:
+      postgres:
+        condition: service_healthy
+    # 🌟 關鍵升級：強制將本地 .env 帳密直接注射進這個容器環境
+    env_file: .env
+    volumes:
+      - ./init_historical.py:/init_historical.py
+    command: python /init_historical.py
+
+  # =========================================================================
+  # 🖥️ 服務三：Airflow Webserver 指揮官圖形介面
+  # =========================================================================
+  airflow-webserver:
+    build: .
+    container_name: leo-airflow-webserver
+    restart: always
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    # 🌟 關鍵升級：讓 Airflow 網頁端也直接繼承 .env 的全部帳密環境
+    env_file: .env
+    environment:
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://postgres:mysecretpassword@postgres:5432/leo_risk_db
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__LOAD_EXAMPLES: 'False'
+    command: >
+      bash -c "airflow db migrate && 
+               airflow users create --username airflow --password airflow --firstname Leo --lastname Analyst --role Admin --email admin@example.com || true && 
+               airflow webserver"
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./app:/app
+
+  # =========================================================================
+  # 🧠 服務四：Airflow Scheduler 幕後核心調度工人 (真正執行任務的人，一定要加！)
+  # =========================================================================
+  airflow-scheduler:
+    build: .
+    container_name: leo-airflow-scheduler
+    restart: always
+    depends_on:
+      postgres:
+        condition: service_healthy
+    # 🌟 關鍵升級：Scheduler 負責跑 daily_pipeline.py，它最需要 .env 的太空軍帳密！
+    env_file: .env
+    environment:
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://postgres:mysecretpassword@postgres:5432/leo_risk_db
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__LOAD_EXAMPLES: 'False'
+    command: airflow scheduler
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./app:/app

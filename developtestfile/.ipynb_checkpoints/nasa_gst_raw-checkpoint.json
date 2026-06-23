@@ -1,0 +1,42 @@
+[
+  {
+    "gstID": "2026-06-05T15:00:00-GST-001",
+    "startTime": "2026-06-05T15:00Z",
+    "allKpIndex": [
+      {
+        "observedTime": "2026-06-05T18:00Z",
+        "kpIndex": 6.33,
+        "source": "NOAA"
+      }
+    ],
+    "link": "https://webtools.ccmc.gsfc.nasa.gov/DONKI/view/GST/46669/-1",
+    "linkedEvents": [
+      {
+        "activityID": "2026-06-03T01:53:00-CME-001"
+      },
+      {
+        "activityID": "2026-06-03T11:48:00-CME-001"
+      },
+      {
+        "activityID": "2026-06-05T04:23:00-IPS-001"
+      },
+      {
+        "activityID": "2026-06-05T12:06:00-IPS-001"
+      }
+    ],
+    "submissionTime": "2026-06-05T18:02Z",
+    "versionId": 1,
+    "sentNotifications": [
+      {
+        "messageID": "20260605-AL-004",
+        "messageIssueTime": "2026-06-05T18:02Z",
+        "messageURL": "https://webtools.ccmc.gsfc.nasa.gov/DONKI/view/Alert/46670/1"
+      },
+      {
+        "messageID": "20260605-AL-005",
+        "messageIssueTime": "2026-06-05T18:09Z",
+        "messageURL": "https://webtools.ccmc.gsfc.nasa.gov/DONKI/view/Alert/46673/1"
+      }
+    ]
+  }
+]

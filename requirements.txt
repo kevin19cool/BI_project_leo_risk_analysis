@@ -1,0 +1,8 @@
+requests
+pandas
+numpy
+skyfield
+python-dotenv
+notebook
+sqlalchemy
+psycopg2-binary

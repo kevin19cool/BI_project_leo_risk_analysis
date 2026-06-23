@@ -1,0 +1,10 @@
+# .gitignore
+# 🔒 航太資安防線：絕對禁止將本地私密憑證推上 GitHub
+.env
+__pycache__/
+*.pyc
+venv/
+.visualstudio/
+.idea/
+.DS_Store
+developtestfile/

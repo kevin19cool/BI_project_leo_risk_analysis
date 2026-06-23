@@ -1,0 +1,29 @@
+[
+  {
+    "mpcID": "2026-06-11T21:41:00-MPC-001",
+    "eventTime": "2026-06-11T21:41Z",
+    "instruments": [
+      {
+        "displayName": "MODEL: SWMF"
+      }
+    ],
+    "submissionTime": "2026-06-11T21:38Z",
+    "versionId": 1,
+    "link": "https://webtools.ccmc.gsfc.nasa.gov/DONKI/view/MPC/46792/-1",
+    "linkedEvents": [
+      {
+        "activityID": "2026-06-11T15:16:00-IPS-001"
+      },
+      {
+        "activityID": "2026-06-11T16:49:00-HSS-001"
+      }
+    ],
+    "sentNotifications": [
+      {
+        "messageID": "20260611-AL-003",
+        "messageIssueTime": "2026-06-11T21:44Z",
+        "messageURL": "https://webtools.ccmc.gsfc.nasa.gov/DONKI/view/Alert/46793/1"
+      }
+    ]
+  }
+]
